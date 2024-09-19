@@ -28,7 +28,7 @@ export type BuilderOptions = {
 };
 
 type FrameworkName =
-    CompatibleString<"@fast-sb/storybook-fast-components-vite">;
+    CompatibleString<"@microsoft/storybook-fast-components-vite">;
 type BuilderName = CompatibleString<"@storybook/builder-vite">;
 
 export type FrameworkOptions = {

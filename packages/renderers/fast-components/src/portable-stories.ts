@@ -21,7 +21,7 @@ import type { FASTComponentsRenderer } from "./types.mjs";
  *
  * ```jsx
  * // setup-file.js
- * import { setProjectAnnotations } from '@fast-sb/storybook-fast-components';
+ * import { setProjectAnnotations } from '@microsoft/storybook-fast-components';
  * import projectAnnotations from './.storybook/preview';
  *
  * setProjectAnnotations(projectAnnotations);

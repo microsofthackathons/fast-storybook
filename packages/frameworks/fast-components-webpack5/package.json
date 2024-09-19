@@ -1,5 +1,5 @@
 {
-  "name": "@microsofthackathons/storybook-fast-components-webpack5",
+  "name": "@microsoft/storybook-fast-components-webpack5",
   "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook for fast-components: View web components snippets in isolation with Hot Reloading.",
@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@storybook/builder-webpack5": "^8.3.0",
-    "@fast-sb/storybook-fast-components": "^0.0.1"
+    "@microsoft/storybook-fast-components": "^0.0.1"
   },
   "peerDependencies": {
     "storybook": "^8.3.0"

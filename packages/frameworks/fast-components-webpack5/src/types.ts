@@ -11,7 +11,7 @@ import type {
 } from "@storybook/builder-webpack5";
 
 type FrameworkName =
-    CompatibleString<"@fast-sb/storybook-fast-components-webpack5">;
+    CompatibleString<"@microsoft/storybook-fast-components-webpack5">;
 type BuilderName = CompatibleString<"@storybook/builder-webpack5">;
 
 export type FrameworkOptions = {

@@ -17,6 +17,6 @@ export const core: PresetProperty<"core"> = async (config, options) => {
                     ? {}
                     : framework.options.builder || {},
         },
-        renderer: getAbsolutePath("@fast-sb/storybook-fast-components"),
+        renderer: getAbsolutePath("@microsoft/storybook-fast-components"),
     };
 };

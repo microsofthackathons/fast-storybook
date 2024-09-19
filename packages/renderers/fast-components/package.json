@@ -1,5 +1,5 @@
 {
-  "name": "@microsofthackathons/storybook-fast-components",
+  "name": "@microsoft/storybook-fast-components",
   "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook fast-components renderer",

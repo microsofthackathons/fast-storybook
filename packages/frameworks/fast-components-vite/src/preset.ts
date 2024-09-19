@@ -6,5 +6,5 @@ const getAbsolutePath = <I extends string>(input: I): I =>
 
 export const core: PresetProperty<"core"> = {
     builder: getAbsolutePath("@storybook/builder-vite"),
-    renderer: getAbsolutePath("@fast-sb/storybook-fast-components"),
+    renderer: getAbsolutePath("@microsoft/storybook-fast-components"),
 };

@@ -1,5 +1,5 @@
 {
-  "name": "@microsofthackathons/storybook-fast-components-vite",
+  "name": "@microsoft/storybook-fast-components-vite",
   "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook for fast-components and Vite: Develop FAST Web Components in isolation with Hot Reloading.",
@@ -41,7 +41,7 @@
   ],
   "dependencies": {
     "@storybook/builder-vite": "^8.3.0",
-    "@fast-sb/storybook-fast-components": "^0.0.1"
+    "@microsoft/storybook-fast-components": "^0.0.1"
   },
   "devDependencies": {
     "storybook": "^8.3.0"

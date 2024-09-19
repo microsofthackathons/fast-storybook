@@ -28,8 +28,8 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "watch": "concurrently \"npm:watch:*\"",
-    "watch:renderer": "npm run watch --workspace=@fast-sb/storybook-fast-components",
-    "watch:frameworks-vite": "npm run watch --workspace=@fast-sb/storybook-fast-components-vite",
-    "watch:frameworks-webpack5": "npm run watch --workspace=@fast-sb/storybook-fast-components-webpack5"
+    "watch:renderer": "npm run watch --workspace=@microsoft/storybook-fast-components",
+    "watch:frameworks-vite": "npm run watch --workspace=@microsoft/storybook-fast-components-vite",
+    "watch:frameworks-webpack5": "npm run watch --workspace=@microsoft/storybook-fast-components-webpack5"
   }
 }
