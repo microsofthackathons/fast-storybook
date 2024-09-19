@@ -15,21 +15,39 @@
     "@types/webpack-env": "^1.18.5",
     "@types/node": "^20.0.0",
     "concurrently": "^9.0.1",
-    "typescript": "^5.6.2"
+    "nodemon": "^3.1.6",
+    "typescript": "^5.6.2",
+    "del-cli": "^5.1.0",
+    "lage": "^2.9.0"
   },
   "peerDependencies": {
     "@types/react": ">=16"
   },
   "workspaces": [
-    "packages/frameworks/fast-components-vite",
-    "packages/frameworks/fast-components-webpack5",
-    "packages/renderers/fast-components"
+    "packages/frameworks/*",
+    "packages/renderers/*",
+    "test"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "watch": "concurrently \"npm:watch:*\"",
-    "watch:renderer": "npm run watch --workspace=@microsoft/storybook-fast-components",
-    "watch:frameworks-vite": "npm run watch --workspace=@microsoft/storybook-fast-components-vite",
-    "watch:frameworks-webpack5": "npm run watch --workspace=@microsoft/storybook-fast-components-webpack5"
+    "build": "lage build",
+    "dev": "",
+    "watch": "nodemon",
+    "clean": "del-cli ./packages/**/dist ./test/storybook-static",
+    "storybook": "npm run dev --workspace=test"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/dist",
+      "test/storybook-static",
+      ".git",
+      "node_modules/**/node_modules"
+    ],
+    "watch": [
+      "packages/frameworks/fast-components-vite/src",
+      "packages/frameworks/fast-components-webpack5/src",
+      "packages/renderers/fast-components/src"
+    ],
+    "ext": "ts,mts",
+    "exec": "npm run build"
   }
 }

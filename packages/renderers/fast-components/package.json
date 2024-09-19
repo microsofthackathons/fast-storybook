@@ -70,8 +70,6 @@
     "node": ">=20.0.0"
   },
   "scripts": {
-    "build": "npm run build:tsc",
-    "build:tsc": "tsc -p tsconfig.build.json",
-    "watch": "npm run build:tsc -- -w"
+    "build": "tsc -p tsconfig.build.json"
   }
 }
