@@ -1,0 +1,50 @@
+{
+    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "organizeImports": {
+        "enabled": true
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "complexity": {
+                "noForEach": "off"
+            },
+            "suspicious": {
+                "noExplicitAny": "off"
+            },
+            "style": {
+                "noInferrableTypes": "off",
+                "noUnusedTemplateLiteral": "warn"
+            }
+        }
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "indentWidth": 4
+    },
+    "javascript": {
+        "formatter": {
+            "arrowParentheses": "asNeeded"
+        }
+    },
+    "json": {
+        "formatter": {
+            "enabled": false
+        }
+    },
+    "files": {
+        "include": [
+            "**/*.ts",
+            "**/*.mts",
+            "**/*.cts",
+            "**/*.json",
+            "**/*.jsonc",
+            "**/*.mjs",
+            "**/*.cjs",
+            "**/*.js"
+        ],
+        "ignore": ["**/dist/**", "**/storybook-static/**", "package-lock.json"]
+    }
+}

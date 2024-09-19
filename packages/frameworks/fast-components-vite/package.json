@@ -1,0 +1,52 @@
+{
+  "name": "@fast-sb/storybook-fast-components-vite",
+  "version": "0.0.1",
+  "description": "Storybook for fast-components and Vite: Develop FAST Web Components in isolation with Hot Reloading.",
+  "license": "MIT",
+  "keywords": [
+    "fast",
+    "fast-element",
+    "storybook",
+    "web-components",
+    "fast-components"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./preset": {
+      "types": "./dist/preset.d.ts",
+      "require": "./dist/preset.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.js",
+    "*.d.ts",
+    "!src/**/*"
+  ],
+  "dependencies": {
+    "@storybook/builder-vite": "^8.3.0",
+    "@fast-sb/storybook-fast-components": "^0.0.1"
+  },
+  "devDependencies": {
+    "storybook": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "npm run build:tsc",
+    "build:tsc": "tsc -p tsconfig.build.json",
+    "watch": "npm run build:tsc -- -w"
+  }
+}
