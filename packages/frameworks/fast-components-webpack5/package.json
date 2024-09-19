@@ -1,5 +1,5 @@
 {
-  "name": "@fast-sb/storybook-fast-components-webpack5",
+  "name": "@microsofthackathons/storybook-fast-components-webpack5",
   "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook for fast-components: View web components snippets in isolation with Hot Reloading.",

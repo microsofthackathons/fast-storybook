@@ -1,5 +1,5 @@
 {
-  "name": "@fast-sb/storybook-fast-components-vite",
+  "name": "@microsofthackathons/storybook-fast-components-vite",
   "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook for fast-components and Vite: Develop FAST Web Components in isolation with Hot Reloading.",
