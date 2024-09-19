@@ -1,9 +1,14 @@
 {
   "name": "fast-storybook",
+  "author": "Microsoft",
   "version": "1.0.0",
   "description": "Storybook Support for FAST Components",
   "private": true,
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsofthackathons/fast-storybook.git"
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.1",
     "@types/cross-spawn": "^6.0.2",

@@ -1,5 +1,6 @@
 {
   "name": "@fast-sb/storybook-fast-components-webpack5",
+  "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook for fast-components: View web components snippets in isolation with Hot Reloading.",
   "keywords": [
@@ -10,6 +11,11 @@
     "fast-components"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsofthackathons/fast-storybook.git",
+    "directory": "packages/frameworks/fast-components-webpack5"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",

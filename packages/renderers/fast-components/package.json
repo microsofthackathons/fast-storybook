@@ -1,5 +1,6 @@
 {
   "name": "@fast-sb/storybook-fast-components",
+  "author": "Microsoft",
   "version": "0.0.1",
   "description": "Storybook fast-components renderer",
   "keywords": [
@@ -9,6 +10,11 @@
     "web-components",
     "fast-components"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsofthackathons/fast-storybook.git",
+    "directory": "packages/renderers/fast-components"
+  },
   "license": "MIT",
   "exports": {
     ".": {
