@@ -1,3 +1,4 @@
-// biome-ignore lint/complexity/noBannedTypes: shrug
-export const parameters: {} = { renderer: "fast-components" };
+import type { Parameters } from "./public-types.js";
+
+export const parameters: Parameters = { renderer: "fast-components" };
 export { render, renderToCanvas } from "./render.js";

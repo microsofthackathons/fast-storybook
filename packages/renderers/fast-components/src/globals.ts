@@ -1,5 +1,5 @@
-import { global } from '@storybook/global';
+import { global } from "@storybook/global";
 
 const { window: globalWindow } = global;
 
-globalWindow.STORYBOOK_ENV = 'fast-components';
+globalWindow.STORYBOOK_ENV = "fast-components";
