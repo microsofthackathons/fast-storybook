@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
     "organizeImports": {
         "enabled": true
     },
@@ -45,6 +45,11 @@
             "**/*.cjs",
             "**/*.js"
         ],
-        "ignore": ["**/dist/**", "**/storybook-static/**", "package-lock.json"]
+        "ignore": [
+            "**/dist/**",
+            "**/storybook-static/**",
+            "package-lock.json",
+            "test/custom-elements-manifest.config.js"
+        ]
     }
 }
