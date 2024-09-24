@@ -20,20 +20,18 @@
     "del-cli": "^5.1.0",
     "lage": "^2.9.0"
   },
-  "peerDependencies": {
-    "@types/react": ">=16"
-  },
   "workspaces": [
     "packages/frameworks/*",
     "packages/renderers/*",
+    "packages/cem-fast-extended-plugin",
     "test"
   ],
   "scripts": {
     "build": "lage build",
-    "dev": "",
+    "dev": "concurrently \"npm:watch\" \"npm:storybook\"",
     "watch": "nodemon",
-    "clean": "del-cli ./packages/**/dist ./test/storybook-static",
-    "storybook": "npm run dev --workspace=test"
+    "clean": "npx lage clean && npx lage cache --clear",
+    "storybook": "npm run watch --workspace=test"
   },
   "nodemonConfig": {
     "ignore": [
@@ -45,7 +43,8 @@
     "watch": [
       "packages/frameworks/fast-components-vite/src",
       "packages/frameworks/fast-components-webpack5/src",
-      "packages/renderers/fast-components/src"
+      "packages/renderers/fast-components/src",
+      "packages/cem-plugin-fast-extended/src"
     ],
     "ext": "ts,mts",
     "exec": "npm run build"

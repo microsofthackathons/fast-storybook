@@ -2,6 +2,11 @@ import { BaseButton } from "@fluentui/web-components/button/index.js";
 import { attr } from "@microsoft/fast-element";
 import { ButtonAppearance, ButtonSize } from "./button.options.js";
 
+/**
+ * The Button component.
+ *
+ * @slot - The default slot for the button content.
+ */
 export class Button extends BaseButton {
     /**
      * The stylistic appearance of the button.
@@ -10,23 +15,15 @@ export class Button extends BaseButton {
     appearance: ButtonAppearance = ButtonAppearance.primary;
 
     /**
-     * Updates the appearance state when the `appearance` property or attribute changes.
+     * The size of the button.
      */
-    appearanceChanged(prev: ButtonAppearance, next: string): undefined {
-        this.elementInternals.states.delete(`appearance-${prev}`);
-
-        if (next in ButtonAppearance) {
-            this.elementInternals.states.add(`appearance-${next}`);
-        }
-    }
-
     @attr
     size: ButtonSize = ButtonSize.medium;
 
     attributeChangedCallback(
         name: string,
         oldValue: string | null,
-        newValue: string | null,
+        newValue: string | null
     ): void {
         super.attributeChangedCallback(name, oldValue, newValue);
 

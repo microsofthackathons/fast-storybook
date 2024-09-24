@@ -39,11 +39,9 @@
     "*.d.ts",
     "!src/**/*"
   ],
-  "dependencies": {
+  "devDependencies": {
+    "@microsoft/storybook-fast-components": "^0.0.1",
     "@storybook/builder-webpack5": "^8.3.0",
-    "@microsoft/storybook-fast-components": "^0.0.1"
-  },
-  "peerDependencies": {
     "storybook": "^8.3.0"
   },
   "engines": {
@@ -51,6 +49,7 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "del-cli dist"
   }
 }

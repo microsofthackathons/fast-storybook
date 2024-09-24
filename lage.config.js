@@ -8,5 +8,9 @@ module.exports = {
             outputs: ["storybook-static/**"],
             dependsOn: ["^build"],
         },
+        clean: {
+            cache: false,
+            dependsOn: [],
+        },
     },
 };

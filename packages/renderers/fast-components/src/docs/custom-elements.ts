@@ -1,13 +1,13 @@
+import type { FASTElementDefinition } from "@microsoft/fast-element";
 import { logger } from "@storybook/core/client-logger";
-import type { ArgTypes, Args, InputType } from "@storybook/core/types";
-
+import type { ArgTypes, InputType } from "@storybook/core/types";
 import invariant from "tiny-invariant";
-
 import {
     getCustomElements,
     isValidComponent,
     isValidMetaData,
 } from "../framework-api.js";
+import type { FASTComponentsRenderer } from "../types.mjs";
 
 interface TagItem {
     name: string;
@@ -49,18 +49,22 @@ function mapItem(item: TagItem, category: string): InputType {
     let type: any;
     switch (category) {
         case "attributes":
-        case "properties":
+        case "properties": {
+            // TODO: import type consts somehow
             type = { name: item.type?.text || item.type };
             break;
-        case "slots":
+        }
+        case "slots": {
             type = { name: "string" };
             break;
-        default:
+        }
+        default: {
             type = { name: "other" };
             break;
+        }
     }
 
-    return {
+    const newItem = {
         name: item.name,
         required: false,
         description: item.description,
@@ -69,19 +73,18 @@ function mapItem(item: TagItem, category: string): InputType {
             category,
             type: { summary: item.type?.text || item.type },
             defaultValue: {
-                summary:
-                    item.default !== undefined
-                        ? item.default
-                        : item.defaultValue,
+                summary: item.default ?? item.defaultValue,
             },
         },
     };
+
+    return newItem;
 }
 
 function mapEvent(item: TagItem): InputType[] {
     let name = item.name
         .replace(/(-|_|:|\.|\s)+(.)?/g, (_match, _separator, chr: string) => {
-            return chr ? chr.toUpperCase() : "";
+            return chr?.toUpperCase() ?? "";
         })
         .replace(/^([A-Z])/, match => match.toLowerCase());
 
@@ -94,41 +97,48 @@ function mapEvent(item: TagItem): InputType[] {
 }
 
 function mapData(data: TagItem[], category: string) {
-    return data
-        ?.filter(item => item.name)
-        .reduce((acc, item) => {
-            if (item.kind === "method") {
+    return (
+        data
+            // ?.filter(item => item.name)
+            .reduce((acc, item) => {
+                if (item.kind === "method") {
+                    return acc;
+                }
+
+                switch (category) {
+                    case "events":
+                        mapEvent(item).forEach(argType => {
+                            invariant(
+                                argType.name,
+                                `${argType} should have a name property.`
+                            );
+                            acc[argType.name] = argType;
+                        });
+                        break;
+                    default:
+                        acc[item.name] = mapItem(item, category);
+                        break;
+                }
+
                 return acc;
-            }
+            }, {} as ArgTypes)
+    );
+}
 
-            switch (category) {
-                case "events":
-                    mapEvent(item).forEach(argType => {
-                        invariant(
-                            argType.name,
-                            `${argType} should have a name property.`,
-                        );
-                        acc[argType.name] = argType;
-                    });
-                    break;
-                default:
-                    acc[item.name] = mapItem(item, category);
-                    break;
-            }
-
-            return acc;
-        }, {} as ArgTypes);
+function getComponentName(component: FASTComponentsRenderer["component"]): string {
+    return (component as FASTElementDefinition)?.name ?? component;
 }
 
 const getMetaDataExperimental = (
-    tagName: string,
-    customElements: CustomElements,
+    t: string | FASTElementDefinition,
+    customElements: CustomElements
 ) => {
+    const tagName = getComponentName(t);
     if (!isValidComponent(tagName) || !isValidMetaData(customElements)) {
         return null;
     }
     const metaData = customElements.tags.find(
-        tag => tag.name.toUpperCase() === tagName.toUpperCase(),
+        tag => tag.name.toUpperCase() === tagName.toUpperCase()
     );
     if (!metaData) {
         logger.warn(`Component not found in custom-elements.json: ${tagName}`);
@@ -136,7 +146,9 @@ const getMetaDataExperimental = (
     return metaData;
 };
 
-const getMetaDataV1 = (tagName: string, customElements: CustomElements) => {
+const getMetaDataV1 = (t: string, customElements: CustomElements) => {
+    const tagName = getComponentName(t);
+
     if (!isValidComponent(tagName) || !isValidMetaData(customElements)) {
         return null;
     }
@@ -156,7 +168,9 @@ const getMetaDataV1 = (tagName: string, customElements: CustomElements) => {
     return metadata;
 };
 
-const getMetaData = (tagName: string, manifest: any) => {
+const getMetaData = (t: string, manifest: any) => {
+    const tagName = getComponentName(t);
+
     if (manifest?.version === "experimental") {
         return getMetaDataExperimental(tagName, manifest);
     }
@@ -164,9 +178,10 @@ const getMetaData = (tagName: string, manifest: any) => {
 };
 
 export const extractArgTypesFromElements = (
-    tagName: string,
-    customElements: CustomElements,
+    t: string,
+    customElements: CustomElements
 ) => {
+    const tagName = getComponentName(t);
     const metaData = getMetaData(tagName, customElements) as Tag;
     if (metaData) {
         return {
@@ -181,12 +196,14 @@ export const extractArgTypesFromElements = (
     }
 };
 
-export const extractArgTypes = (tagName: string) => {
+export const extractArgTypes = (t: string) => {
+    const tagName = getComponentName(t);
     const cem = getCustomElements();
     return extractArgTypesFromElements(tagName, cem);
 };
 
-export const extractComponentDescription = (tagName: string) => {
+export const extractComponentDescription = (t: string) => {
+    const tagName = getComponentName(t);
     const metaData = getMetaData(tagName, getCustomElements()) as Tag;
     return metaData?.description;
 };

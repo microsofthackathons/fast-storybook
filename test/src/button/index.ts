@@ -6,5 +6,5 @@ export {
     ButtonSize,
     ButtonType,
 } from "./button.options.js";
-export { styles as ButtonStyles, baseButtonStyles } from "./button.styles.js";
+export { styles as ButtonStyles } from "./button.styles.js";
 export { template as ButtonTemplate } from "./button.template.js";

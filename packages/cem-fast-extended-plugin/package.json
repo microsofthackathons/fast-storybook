@@ -1,0 +1,51 @@
+{
+  "name": "@microsoft/cem-fast-extended-plugin",
+  "author": "Microsoft",
+  "version": "0.0.1",
+  "description": "Custom Elements Manifest plugin for FAST Elements",
+  "keywords": [
+    "custom-elements",
+    "cem analyzer",
+    "custom-elements-manifest",
+    "fast",
+    "fast-element",
+    "fast-components",
+    "web-components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/microsofthackathons/fast-storybook.git",
+    "directory": "packages/cem-plugin-fast-extended"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md",
+    "*.d.ts",
+    "!src/**/*"
+  ],
+  "type": "module",
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "rollup": "^4.22.0",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-node-resolve": "^15.2.3"
+  },
+  "scripts": {
+    "build": "npm run build:tsc && npm run build:rollup",
+    "build:tsc": "tsc -p tsconfig.build.json",
+    "build:rollup": "rollup -c",
+    "clean": "del-cli dist"
+  }
+}

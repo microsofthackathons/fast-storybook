@@ -12,6 +12,10 @@
     "@microsoft/fast-element": "^2.0.0"
   },
   "devDependencies": {
+    "@microsoft/cem-fast-extended-plugin": "^0.0.1",
+    "@custom-elements-manifest/analyzer": "^0.10.3",
+    "cem-plugin-expanded-types": "^1.3.2",
+    "custom-elements-manifest-inheritance": "^1.1.1",
     "@microsoft/storybook-fast-components": "^0.0.1",
     "@microsoft/storybook-fast-components-vite": "^0.0.1",
     "@storybook/addon-essentials": "^8.3.0",
@@ -22,7 +26,11 @@
     "@fluentui/web-components": "^3.0.0-beta.64"
   },
   "scripts": {
+    "build": "npm run build:tsc && npm run cem",
+    "build:tsc": "tsc -p tsconfig.build.json",
     "build:storybook": "storybook build",
-    "watch": "storybook dev -p 6006 --no-open"
+    "watch": "storybook dev -p 6006 --no-open",
+    "cem": "cem analyze",
+    "clean": "del-cli dist storybook-static"
   }
 }

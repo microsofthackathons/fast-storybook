@@ -8,3 +8,5 @@ export const ComponentDesignSystem = Object.freeze({
     shadowRootMode: "open",
     registry: globalThis.customElements,
 });
+
+export const customElements = ComponentDesignSystem.registry;

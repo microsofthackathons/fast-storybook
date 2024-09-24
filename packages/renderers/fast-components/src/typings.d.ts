@@ -14,4 +14,3 @@ declare var LOGLEVEL:
     | "silent"
     | undefined;
 declare module "prettier/plugins/html.mjs";
-declare module "prettier/standalone.mjs";

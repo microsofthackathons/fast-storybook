@@ -1,9 +1,5 @@
 import { html } from "@microsoft/fast-element";
-import type {
-    Meta,
-    StoryArgs,
-    StoryObj,
-} from "@microsoft/storybook-fast-components";
+import type { Meta, StoryArgs, StoryObj } from "@microsoft/storybook-fast-components";
 import { definition } from "../src/button/button.definition.js";
 import type { Button } from "../src/button/button.js";
 import {
@@ -18,7 +14,7 @@ export default {
     title: "Components/Button",
     component: definition,
     args: {
-        slottedContent: () => "Button",
+        "": "Button",
     },
     argTypes: {
         appearance: {
@@ -38,6 +34,7 @@ export default {
         size: {
             control: "select",
             description: "The size of the button.",
+            mapping: { "": null, ...ButtonSize },
             options: ["", ...Object.values(ButtonSize)],
             table: {
                 category: "attributes",
@@ -47,7 +44,8 @@ export default {
         type: {
             control: "select",
             description: "The type of the button.",
-            options: ["", Object.values(ButtonType)],
+            mapping: { "": null, ...ButtonType },
+            options: ["", ...Object.values(ButtonType)],
             table: {
                 category: "attributes",
                 type: { summary: Object.values(ButtonType).join("|") },
@@ -58,14 +56,10 @@ export default {
             description: "The initial value of the button.",
             table: { category: "attributes", type: { summary: "string" } },
         },
-        slottedContent: {
+        "": {
             control: "text",
             description: "The default slot",
-            name: "default slot",
-            type: {
-                name: "other",
-                value: "string | (() => string) | ViewTemplate",
-            },
+            name: "",
             table: {
                 category: "slots",
                 type: {},
@@ -79,56 +73,54 @@ export const Default: Story = {};
 export const Disabled: Story = {
     args: {
         disabled: true,
-        slottedContent: () => "Disabled",
+        "": "Disabled",
     },
 };
 
 export const PrimaryAppearance: Story = {
     args: {
         appearance: ButtonAppearance.primary,
-        slottedContent: () => "Primary",
+        "": "Primary",
     },
 };
 
 export const SecondaryAppearance: Story = {
     args: {
         appearance: ButtonAppearance.secondary,
-        slottedContent: () => "Secondary",
+        "": "Secondary",
     },
 };
 
 export const SmallSize: Story = {
     args: {
         size: ButtonSize.small,
-        slottedContent: () => "Small",
+        "": "Small",
     },
 };
 
 export const MediumSize: Story = {
     args: {
         size: ButtonSize.medium,
-        slottedContent: () => "Medium",
+        "": "Medium",
     },
 };
 
 export const LargeSize: Story = {
     args: {
         size: ButtonSize.large,
-        slottedContent: () => "Large",
+        "": "Large",
     },
 };
 
 export const LongText: Story = {
     args: {
-        slottedContent: () =>
+        "": () =>
             "This story's canvas has a max-width of 280px, applied with a Story Decorator. Long text wraps after it hits the max width of the component.",
     },
     decorators: [
         (Story, context) => {
             return html<StoryArgs<Button>>`
-                <div style="max-width: 280px">
-                    ${Story()}
-                </div>
+                <div style="max-width: 280px">${Story()}</div>
             `;
         },
     ],

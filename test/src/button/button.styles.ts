@@ -11,7 +11,7 @@ export const styles = css`
         border-radius: 3em;
         font-weight: 700;
         line-height: 1;
-        font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 
     :host([hidden]) {

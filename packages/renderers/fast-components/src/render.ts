@@ -1,35 +1,29 @@
 import {
     FASTElement,
     type FASTElementDefinition,
+    InlineTemplateDirective,
+    type TemplateValue,
     ViewTemplate,
     html,
     repeat,
 } from "@microsoft/fast-element";
-import {
-    simulateDOMContentLoaded,
-    simulatePageLoad,
-} from "@storybook/core/preview-api";
-import type { ArgsStoryFn, RenderContext } from "@storybook/core/types";
+import { simulateDOMContentLoaded, simulatePageLoad } from "@storybook/core/preview-api";
+import type { RenderContext } from "@storybook/core/types";
 import dedent from "ts-dedent";
-import type {
-    FASTComponentsRenderer,
-    StoryFnHtmlReturnType,
-} from "./types.mjs";
+import type { StoryFn } from "./public-types.js";
+import type { FASTComponentsRenderer } from "./types.mjs";
 
-function getComponentName(
-    component: FASTComponentsRenderer["component"],
-): string {
+function getComponentName(component?: FASTComponentsRenderer["component"]): string {
     return (component as FASTElementDefinition)?.name ?? component;
 }
 
-export const render: ArgsStoryFn<FASTComponentsRenderer> = (args, context) => {
+export const render: StoryFn<FASTComponentsRenderer> = (args, context) => {
     const { argTypes, id, component } = context;
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
-    const componentName = getComponentName(component!);
+    const componentName = getComponentName(component);
 
     if (!componentName) {
         throw new Error(
-            `Unable to render story ${id} as the component annotation is missing from the default export`,
+            `Unable to render story ${id} as the component annotation is missing from the default export`
         );
     }
 
@@ -38,36 +32,57 @@ export const render: ArgsStoryFn<FASTComponentsRenderer> = (args, context) => {
     const argsValues = html.partial(
         ` ${Object.entries(args)
             .map(([key, val]) => {
+                const type =
+                    argTypes[key]?.table?.type?.summary ??
+                    argTypes[key]?.type ??
+                    typeof val;
+                const attribute = argTypes[key]?.name ?? key;
+
+                if (key === "") {
+                    return "";
+                }
+
                 switch (typeof val) {
-                    case "boolean":
-                    case "string":
-                        return val !== ""
-                            ? `${argTypes[key]?.name ?? key}="${val}"`
-                            : false;
-                    case "number":
-                        return `${argTypes[key]?.name ?? key}="${val}"`;
-                    default:
+                    case "boolean": {
+                        return val ? attribute : "";
+                    }
+
+                    case "string": {
+                        return `${attribute}="${val}"`;
+                    }
+
+                    case "number": {
+                        return `${attribute}="${val}"`;
+                    }
+
+                    default: {
                         return "";
+                    }
                 }
             })
             .filter(Boolean)
-            .join(" ")}`,
+            .join(" ")}`
     );
 
-    const slottedFunctionArgs = Object.entries(args).reduce(
-        (acc, [key, arg]) => {
-            if (typeof arg === "function") {
-                acc.push(arg);
-            }
-            return acc;
-        },
-        [] as Array<() => StoryFnHtmlReturnType>,
-    );
+    const viewTemplateArgs = Object.entries(args).reduce((acc, [key, val]) => {
+        if (argTypes[key]?.table?.category === "slots") {
+            acc.push(html`
+                ${val}
+            `);
+        }
+
+        return acc;
+    }, [] as ViewTemplate[]);
 
     let template: ViewTemplate;
-    if (slottedFunctionArgs.length > 0) {
+    if (viewTemplateArgs.length > 0) {
         template = html`
-            <${tagName}${argsValues}>${repeat(slottedFunctionArgs, html`${arg => arg()}`)}</${tagName}>
+            <${tagName}${argsValues}>${repeat(
+                viewTemplateArgs,
+                html`
+                    ${arg => arg}
+                `
+            )}</${tagName}>
         `;
     } else {
         template = html`<${tagName}${argsValues}></${tagName}>`;
@@ -78,17 +93,10 @@ export const render: ArgsStoryFn<FASTComponentsRenderer> = (args, context) => {
 
 export function renderToCanvas(
     renderContext: RenderContext<FASTComponentsRenderer>,
-    canvasElement: FASTComponentsRenderer["canvasElement"],
+    canvasElement: FASTComponentsRenderer["canvasElement"]
 ) {
-    const {
-        storyFn,
-        kind,
-        name,
-        showMain,
-        showError,
-        forceRemount,
-        storyContext,
-    } = renderContext;
+    const { storyFn, kind, name, showMain, showError, forceRemount, storyContext } =
+        renderContext;
 
     const element = storyFn(render);
 
@@ -100,6 +108,7 @@ export function renderToCanvas(
         }
 
         const storyFragment = new DocumentFragment();
+
         element.render(element, storyFragment);
 
         const firstChild: Node =
@@ -114,28 +123,30 @@ export function renderToCanvas(
         // }
 
         const renderTo = canvasElement.querySelector<HTMLElement>(
-            '[id="root-inner"]',
+            '[id="root-inner"]'
         ) as HTMLElement;
 
         const oldElement = renderTo.querySelector(
             (storyContext.component as FASTElementDefinition)?.name ??
-                storyContext.component,
+                storyContext.component
         );
 
-        if (oldElement) {
-            oldElement.replaceWith(firstChild);
-        } else {
-            renderTo.append(firstChild);
-        }
+        // canvasElement.innerHTML = "";
+        // canvasElement.appendChild(storyFragment);
 
-        // element.render(element, renderTo);
+        oldElement?.replaceWith(firstChild) ?? renderTo.append(firstChild);
+
+        // render(element, storyContext);
         simulatePageLoad(canvasElement);
     } else if (typeof element === "string") {
         const elementPartial = html.partial(element);
-        const renderedElement = html`${elementPartial}`;
+        const renderedElement = html`
+            ${elementPartial}
+        `;
         renderedElement.render(renderedElement, canvasElement);
         simulatePageLoad(canvasElement);
     } else if (element instanceof Node) {
+        // console.log("element", element);
         // Don't re-mount the element if it didn't change and neither did the story
         if (canvasElement.firstChild === element && !forceRemount) {
             return;

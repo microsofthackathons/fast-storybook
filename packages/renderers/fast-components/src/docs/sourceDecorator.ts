@@ -3,7 +3,7 @@ import { SNIPPET_RENDERED, SourceType } from "@storybook/core/docs-tools";
 import { addons, useEffect } from "@storybook/core/preview-api";
 import type { ArgsStoryFn, PartialStoryFn, StoryContext } from "@storybook/csf";
 import prettierPluginHTML from "prettier/plugins/html.mjs";
-import * as prettier from "prettier/standalone.mjs";
+import * as prettier from "prettier";
 import type { FASTComponentsRenderer } from "../types.mjs";
 
 const FAST_EXPRESSION_COMMENTS = /<!--((fast-\w+)\{.*\}\2)?-->/g;
@@ -19,23 +19,18 @@ function skipSourceRender(context: StoryContext<FASTComponentsRenderer>) {
 
     // never render if the user is forcing the block to render code, or
     // if the user provides code, or if it's not an args story.
-    return (
-        !isArgsStory ||
-        sourceParams?.code ||
-        sourceParams?.type === SourceType.CODE
-    );
+    return !isArgsStory || sourceParams?.code || sourceParams?.type === SourceType.CODE;
 }
 
 export function sourceDecorator(
     storyFn: PartialStoryFn<FASTComponentsRenderer>,
-    context: StoryContext<FASTComponentsRenderer>,
+    context: StoryContext<FASTComponentsRenderer>
 ): FASTComponentsRenderer["storyResult"] {
     const story = storyFn();
-    const renderedForSource = context?.parameters.docs?.source
-        ?.excludeDecorators
+    const renderedForSource = context?.parameters.docs?.source?.excludeDecorators
         ? (context.originalStoryFn as ArgsStoryFn<FASTComponentsRenderer>)(
               context.args,
-              context,
+              context
           )
         : story;
 
@@ -49,6 +44,7 @@ export function sourceDecorator(
                 .format(source, {
                     parser: "html",
                     plugins: [prettierPluginHTML],
+                    htmlWhitespaceSensitivity: "ignore",
                 })
                 .then((formattedSource: string) => {
                     addons.getChannel().emit(SNIPPET_RENDERED, {
@@ -69,12 +65,15 @@ export function sourceDecorator(
             container.appendChild(renderedForSource.cloneNode(true));
         } else if (typeof renderedForSource === "string") {
             const partial = html.partial(renderedForSource);
-            html`${partial}`.create(container);
+            html`
+                ${partial}
+            `.create(container);
         } else if (renderedForSource instanceof ViewTemplate) {
             renderedForSource.render(context.args, container);
         }
 
         source = container.innerHTML.replace(FAST_EXPRESSION_COMMENTS, "");
+        source = source.replace(/=""/g, "");
     }
 
     return story;

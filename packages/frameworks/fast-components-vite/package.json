@@ -39,18 +39,17 @@
     "*.d.ts",
     "!src/**/*"
   ],
-  "dependencies": {
-    "@storybook/builder-vite": "^8.3.0",
-    "@microsoft/storybook-fast-components": "^0.0.1"
-  },
   "devDependencies": {
-    "storybook": "^8.3.0"
+    "@microsoft/storybook-fast-components": "^0.0.1",
+    "@storybook/builder-vite": "^8.0.0",
+    "storybook": "^8.0.0"
   },
   "engines": {
     "node": ">=20.0.0"
   },
   "type": "module",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json"
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "del-cli dist"
   }
 }
